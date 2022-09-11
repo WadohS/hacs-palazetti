@@ -57,6 +57,7 @@ class PalazzettiClimate(PalazzettiEntity, ClimateEntity):
     )
 
     _attr_hvac_mode = None
+    _attr_fan_mode = None
     _attr_hvac_action = None
 
     _state = None
@@ -85,11 +86,11 @@ class PalazzettiClimate(PalazzettiEntity, ClimateEntity):
         """Set new target hvac mode."""
         if hvac_mode == HVACMode.OFF:
             await self.hass.async_add_executor_job(
-                self.coordinator.hub.product.power_off()
+                self.coordinator.hub.product.power_off
             )
         if hvac_mode == HVACMode.HEAT:
             await self.hass.async_add_executor_job(
-                self.coordinator.hub.product.power_on()
+                self.coordinator.hub.product.power_on
             )
         await self.coordinator.async_request_refresh()
 
