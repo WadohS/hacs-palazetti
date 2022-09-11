@@ -1,0 +1,19 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Palazzetti",
+                "description": "If you need help with the configuration have a look here: https://github.com/qtnlebrun/hacs-palazetti",
+                "data": {
+                    "host": "ConnBox IP Adress"
+                }
+            }
+        },
+        "error": {
+            "auth": "ConnBox IP Adress is wrong."
+        },
+        "abort": {
+            "single_instance_allowed": "Only a single instance is allowed."
+        }
+    }
+}

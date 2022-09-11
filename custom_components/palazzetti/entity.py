@@ -1,11 +1,18 @@
-"""BlueprintEntity class"""
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
+"""PalazzettiEntity class"""
+
+from homeassistant.helpers.update_coordinator import (
+    CoordinatorEntity,
+    DataUpdateCoordinator,
+)
+from homeassistant.config_entries import ConfigEntry
 
 from .const import DOMAIN, NAME, VERSION, ATTRIBUTION
 
 
-class IntegrationBlueprintEntity(CoordinatorEntity):
-    def __init__(self, coordinator, config_entry):
+class PalazzettiEntity(CoordinatorEntity):
+    """PalazzettiEntity class"""
+
+    def __init__(self, coordinator: DataUpdateCoordinator, config_entry: ConfigEntry):
         super().__init__(coordinator)
         self.config_entry = config_entry
 
@@ -28,6 +35,6 @@ class IntegrationBlueprintEntity(CoordinatorEntity):
         """Return the state attributes."""
         return {
             "attribution": ATTRIBUTION,
-            "id": str(self.coordinator.data.get("id")),
+            "id": str(self.coordinator.data.get("SN")),
             "integration": DOMAIN,
         }

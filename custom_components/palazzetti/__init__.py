@@ -1,8 +1,8 @@
 """
-Custom integration to integrate integration_blueprint with Home Assistant.
+Custom integration to integrate Palazzeti ConnBox with Home Assistant.
 
 For more details about this integration, please refer to
-https://github.com/custom-components/integration_blueprint
+https://github.com/qtnlebrun/hacs-palazetti
 """
 import asyncio
 from datetime import timedelta
@@ -14,17 +14,16 @@ from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .api import IntegrationBlueprintApiClient
+from palazzetti_sdk_local_api import Hub
 
 from .const import (
-    CONF_PASSWORD,
-    CONF_USERNAME,
+    CONF_HOST,
     DOMAIN,
     PLATFORMS,
     STARTUP_MESSAGE,
 )
 
-SCAN_INTERVAL = timedelta(seconds=30)
+SCAN_INTERVAL = timedelta(seconds=10)
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -40,14 +39,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         hass.data.setdefault(DOMAIN, {})
         _LOGGER.info(STARTUP_MESSAGE)
 
-    username = entry.data.get(CONF_USERNAME)
-    password = entry.data.get(CONF_PASSWORD)
+    host = entry.data.get(CONF_HOST)
 
-    session = async_get_clientsession(hass)
-    client = IntegrationBlueprintApiClient(username, password, session)
+    hub = Hub(host)
 
-    coordinator = BlueprintDataUpdateCoordinator(hass, client=client)
-    await coordinator.async_refresh()
+    coordinator = PalazzettiDataUpdateCoordinator(hass, hub=hub)
+    await coordinator.async_config_entry_first_refresh()
 
     if not coordinator.last_update_success:
         raise ConfigEntryNotReady
@@ -65,14 +62,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     return True
 
 
-class BlueprintDataUpdateCoordinator(DataUpdateCoordinator):
+class PalazzettiDataUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
-    def __init__(
-        self, hass: HomeAssistant, client: IntegrationBlueprintApiClient
-    ) -> None:
+    hub: Hub = None
+
+    def __init__(self, hass: HomeAssistant, hub: Hub) -> None:
         """Initialize."""
-        self.api = client
+        self.hub = hub
         self.platforms = []
 
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL)
@@ -80,7 +77,13 @@ class BlueprintDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Update data via library."""
         try:
-            return await self.api.async_get_data()
+            await self.hub.async_update(discovery=False, deep=False)
+            if not self.hub.hub_online or not self.hub.product_online:
+                raise Exception
+            await self.hub.async_update(discovery=True, deep=True)
+            if not self.hub.product or not self.hub.product.online:
+                raise Exception
+            return self.hub.product.get_prod_data_json()
         except Exception as exception:
             raise UpdateFailed() from exception
 
