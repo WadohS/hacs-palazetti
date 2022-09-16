@@ -12,10 +12,11 @@ ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
 ISSUE_URL = "https://github.com/qtnlebrun/hacs-palazetti/issues"
 
 # Icons
-ICON = "mdi:format-quote-close"
+ICON_FIRE = "mdi:fire"
+ICON_INFO = "mdi:information-outline"
 
 # Platforms
-PLATFORMS = [Platform.CLIMATE, Platform.NUMBER]
+PLATFORMS = [Platform.CLIMATE, Platform.NUMBER, Platform.SENSOR]
 
 
 # Configuration and options
