@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from homeassistant.components.sensor import SensorEntity
 
@@ -32,13 +33,21 @@ class PalazzettiStatus(PalazzettiEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_name = None
     _attr_icon = ICON_INFO
+    _status = None
 
     def __init__(self, coordinator: DataUpdateCoordinator, config_entry: ConfigEntry):
         PalazzettiEntity.__init__(self, coordinator, config_entry)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return extra attributes."""
+        state_attr = super().extra_state_attributes
+        state_attr["STATUS"] = self._status
+        return state_attr
 
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
         self._attr_native_value = self.coordinator.data.get("STATE")
-
+        self._status = self.coordinator.data.get("STATUS")
         self.async_write_ha_state()
