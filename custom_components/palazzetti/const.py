@@ -51,13 +51,16 @@ FAN_HA_TO_PALAZZETTI = {
     FAN_5: 5,
 }
 
+SENSOR_KEY = "key"
+SENSOR_ATTRS = "attrs"
+
 # Sensors Config : <sentor_id> : [<data_key>, [<extra attr>]]
 SENSORS = {
-    "status": ["STATE", ["STATUS"]],
-    "dpress": ["DP", None],
-    "dpress_target": ["DPT", None],
-    "power_time": ["POWERTIME", None],
-    "service_time": ["SERVICETIME", None],
+    "status": dict([(SENSOR_KEY, "STATE"), (SENSOR_ATTRS, ["STATUS"])]),
+    "dpress": dict([(SENSOR_KEY, "DP"), (SENSOR_ATTRS, None)]),
+    "dpress_target": dict([(SENSOR_KEY, "DPT"), (SENSOR_ATTRS, None)]),
+    "power_time": dict([(SENSOR_KEY, "POWERTIME"), (SENSOR_ATTRS, None)]),
+    "service_time": dict([(SENSOR_KEY, "SERVICETIME"), (SENSOR_ATTRS, None)]),
 }
 
 

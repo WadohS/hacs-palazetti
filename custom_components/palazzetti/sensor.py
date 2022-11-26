@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import DOMAIN, ICON_INFO, SENSORS
+from .const import DOMAIN, ICON_INFO, SENSORS, SENSOR_KEY, SENSOR_ATTRS
 
 from .entity import PalazzettiEntity
 
@@ -26,7 +26,11 @@ async def async_setup_entry(
     coordinator = hass.data[DOMAIN][entry.entry_id]
     for key, value in SENSORS.items():
         async_add_entities(
-            [PalazzettiSensor(coordinator, entry, key, value[0], value[1])]
+            [
+                PalazzettiSensor(
+                    coordinator, entry, key, value[SENSOR_KEY], value[SENSOR_ATTRS]
+                )
+            ]
         )
 
 
