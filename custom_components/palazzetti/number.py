@@ -38,7 +38,7 @@ class PalazzettiPower(PalazzettiEntity, NumberEntity):
     _attr_native_step = 1
 
     def __init__(self, coordinator: DataUpdateCoordinator, config_entry: ConfigEntry):
-        PalazzettiEntity.__init__(self, coordinator, config_entry)
+        PalazzettiEntity.__init__(self, coordinator, config_entry, "power")
 
     async def async_set_native_value(self, value: float) -> None:
         """Update the current value."""
