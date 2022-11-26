@@ -12,27 +12,30 @@ from .const import DOMAIN, NAME, VERSION, ATTRIBUTION
 class PalazzettiEntity(CoordinatorEntity):
     """PalazzettiEntity class"""
 
-    _entity_unique_id = None
+    _sensor_id = None
 
     def __init__(
         self,
         coordinator: DataUpdateCoordinator,
         config_entry: ConfigEntry,
-        entity_id: str = None,
+        sensor_id: str = None,
     ):
         super().__init__(coordinator)
         self.config_entry = config_entry
-        self._entity_unique_id = entity_id
-        if self._entity_unique_id is not None:
-            self.entity_id = self.config_entry.entry_id + "_" + self._entity_unique_id
-        else:
-            self.entity_id = self.config_entry.entry_id
+        self._sensor_id = sensor_id
+
+    @property
+    def entity_id(self):
+        """Return the entity id"""
+        if self._sensor_id is not None:
+            return super().entity_id + "_" + self._sensor_id
+        return super().entity_id
 
     @property
     def unique_id(self):
         """Return a unique ID to use for this entity."""
-        if self._entity_unique_id is not None:
-            return self.config_entry.entry_id + "_" + self._entity_unique_id
+        if self._sensor_id is not None:
+            return self.config_entry.entry_id + "_" + self._sensor_id
         return self.config_entry.entry_id
 
     @property
