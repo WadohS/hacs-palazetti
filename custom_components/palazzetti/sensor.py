@@ -59,7 +59,8 @@ class PalazzettiSensor(PalazzettiEntity, SensorEntity):
     def extra_state_attributes(self) -> dict[str, Any]:
         """Return extra attributes."""
         state_attr = super().extra_state_attributes
-        state_attr.update(self._extra_attr)
+        if self._extra_attr is not None:
+            state_attr.update(self._extra_attr)
         return state_attr
 
     @callback

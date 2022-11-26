@@ -54,10 +54,10 @@ FAN_HA_TO_PALAZZETTI = {
 # Sensors Config : <sentor_id> : [<data_key>, [<extra attr>]]
 SENSORS = {
     "status": ["STATE", ["STATUS"]],
-    "dpress": ["DP"],
-    "dpress_target": ["DPT"],
-    "power_time": ["POWERTIME"],
-    "service_time": ["SERVICETIME"],
+    "dpress": ["DP", None],
+    "dpress_target": ["DPT", None],
+    "power_time": ["POWERTIME", None],
+    "service_time": ["SERVICETIME", None],
 }
 
 
