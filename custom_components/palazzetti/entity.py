@@ -12,7 +12,7 @@ from .const import DOMAIN, NAME, VERSION, ATTRIBUTION
 class PalazzettiEntity(CoordinatorEntity):
     """PalazzettiEntity class"""
 
-    _entity_id = None
+    _entity_unique_id = None
 
     def __init__(
         self,
@@ -22,13 +22,13 @@ class PalazzettiEntity(CoordinatorEntity):
     ):
         super().__init__(coordinator)
         self.config_entry = config_entry
-        self.entity_id = entity_id
+        self._entity_unique_id = entity_id
 
     @property
     def unique_id(self):
         """Return a unique ID to use for this entity."""
-        if self._entity_id is not None:
-            return self.config_entry.entry_id + "_" + self._entity_id
+        if self._entity_unique_id is not None:
+            return self.config_entry.entry_id + "_" + self._entity_unique_id
         return self.config_entry.entry_id
 
     @property
