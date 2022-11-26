@@ -23,6 +23,10 @@ class PalazzettiEntity(CoordinatorEntity):
         super().__init__(coordinator)
         self.config_entry = config_entry
         self._entity_unique_id = entity_id
+        if self._entity_unique_id is not None:
+            self.entity_id = self.config_entry.entry_id + "_" + self._entity_unique_id
+        else:
+            self.entity_id = self.config_entry.entry_id
 
     @property
     def unique_id(self):
@@ -34,7 +38,7 @@ class PalazzettiEntity(CoordinatorEntity):
     @property
     def device_info(self):
         return {
-            "identifiers": {(DOMAIN, self.unique_id)},
+            "identifiers": {(DOMAIN, self.config_entry.entry_id)},
             "name": NAME,
             "model": VERSION,
             "manufacturer": NAME,
