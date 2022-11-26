@@ -40,7 +40,7 @@ class PalazzettiSensor(PalazzettiEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_name = None
     _attr_icon = ICON_INFO
-    _extra_attr = None
+    _extra_attr = {}
 
     _sensor_id = None
     _data_key = None
