@@ -40,7 +40,7 @@ class PalazzettiSensor(PalazzettiEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_name = None
     _attr_icon = ICON_INFO
-    _extra_attr = {}
+    _extra_attr = None
 
     _sensor_id = None
     _data_key = None
@@ -72,6 +72,7 @@ class PalazzettiSensor(PalazzettiEntity, SensorEntity):
         """Handle updated data from the coordinator."""
         self._attr_native_value = self.coordinator.data.get(self._data_key)
         if self._extra_attributes is not None:
+            self._extra_attr = dict()
             for extra_attr in self._extra_attributes:
                 self._extra_attr[extra_attr] = self.coordinator.data.get(extra_attr)
         self.async_write_ha_state()
