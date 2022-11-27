@@ -118,15 +118,22 @@ class PalazzettiClimate(PalazzettiEntity, ClimateEntity):
         self._attr_current_temperature = self.coordinator.data.get("T1")
         self._attr_target_temperature = self.coordinator.data.get("SETP")
         self._attr_fan_mode = FAN_PALAZZETTI_TO_HA[self.coordinator.data.get("F2L")]
+
         if (
             self.coordinator.data.get("STATUS") > 0
             and self.coordinator.data.get("STATUS") != 10
         ):
             self._attr_hvac_mode = HVACMode.HEAT
+            if (
+                self.coordinator.data.get("STATUS") == 9
+                or self.coordinator.data.get("STATUS") > 11
+            ):
+                self._attr_hvac_action = HVACAction.IDLE
             self._attr_hvac_action = HVACAction.HEATING
         else:
             self._attr_hvac_mode = HVACMode.OFF
             self._attr_hvac_action = HVACAction.OFF
+
         self._state = self.coordinator.data.get("STATE")
 
         self.async_write_ha_state()
