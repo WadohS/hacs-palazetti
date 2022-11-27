@@ -25,17 +25,10 @@ class PalazzettiEntity(CoordinatorEntity):
         self._sensor_id = sensor_id
 
     @property
-    def entity_id(self):
-        """Return the entity id"""
-        if self._sensor_id is not None:
-            return super().entity_id + "_" + self._sensor_id
-        return super().entity_id
-
-    @property
     def unique_id(self):
         """Return a unique ID to use for this entity."""
         if self._sensor_id is not None:
-            return self.config_entry.entry_id + "_" + self._sensor_id
+            return self.config_entry.entry_id + "-" + self._sensor_id
         return self.config_entry.entry_id
 
     @property

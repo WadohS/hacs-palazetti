@@ -11,7 +11,15 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
-from .const import DOMAIN, ICON_INFO, SENSORS, SENSOR_KEY, SENSOR_ATTRS
+from .const import (
+    DOMAIN,
+    ICON_INFO,
+    SENSOR_UNIT,
+    SENSORS,
+    SENSOR_KEY,
+    SENSOR_ATTRS,
+    SENSOR_CATEGORY,
+)
 
 from .entity import PalazzettiEntity
 
@@ -24,13 +32,9 @@ async def async_setup_entry(
     """Setup sensor platform"""
 
     coordinator = hass.data[DOMAIN][entry.entry_id]
-    for key, value in SENSORS.items():
+    for sensor_id, sensor_def in SENSORS.items():
         async_add_entities(
-            [
-                PalazzettiSensor(
-                    coordinator, entry, key, value[SENSOR_KEY], value[SENSOR_ATTRS]
-                )
-            ]
+            [PalazzettiSensor(coordinator, entry, sensor_id, sensor_def)]
         )
 
 
@@ -44,19 +48,25 @@ class PalazzettiSensor(PalazzettiEntity, SensorEntity):
 
     _sensor_id = None
     _data_key = None
-    _extra_attributes = None
+    _extra_attributes: dict = None
 
     def __init__(
         self,
         coordinator: DataUpdateCoordinator,
         config_entry: ConfigEntry,
         sensor_id: str,
-        data_key: str,
-        extra_attributes=None,
+        sensor_definition: dict,
     ):
+        self._attr_name = sensor_id
         self._sensor_id = sensor_id
-        self._data_key = data_key
-        self._extra_attributes = extra_attributes
+        self._data_key = sensor_definition[SENSOR_KEY]
+        if SENSOR_ATTRS in sensor_definition.keys():
+            self._extra_attributes = sensor_definition[SENSOR_ATTRS]
+        if SENSOR_CATEGORY in sensor_definition.keys():
+            self._attr_entity_category = sensor_definition[SENSOR_CATEGORY]
+        if SENSOR_UNIT in sensor_definition.keys():
+            self._attr_native_unit_of_measurement = sensor_definition[SENSOR_UNIT]
+
         PalazzettiEntity.__init__(self, coordinator, config_entry, sensor_id)
 
     @property
@@ -72,7 +82,9 @@ class PalazzettiSensor(PalazzettiEntity, SensorEntity):
         """Handle updated data from the coordinator."""
         self._attr_native_value = self.coordinator.data.get(self._data_key)
         if self._extra_attributes is not None:
-            self._extra_attr = dict()
-            for extra_attr in self._extra_attributes:
-                self._extra_attr[extra_attr] = self.coordinator.data.get(extra_attr)
+            self._extra_attr = {}
+            for extra_attr_id, extra_attr_key in self._extra_attributes.items():
+                self._extra_attr[extra_attr_id] = self.coordinator.data.get(
+                    extra_attr_key
+                )
         self.async_write_ha_state()

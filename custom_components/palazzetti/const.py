@@ -2,6 +2,7 @@
 
 from homeassistant.components.climate.const import FAN_AUTO, FAN_HIGH
 from homeassistant.const import Platform
+from homeassistant.helpers.entity import EntityCategory
 
 # Base component constants
 NAME = "Palazzetti"
@@ -53,14 +54,48 @@ FAN_HA_TO_PALAZZETTI = {
 
 SENSOR_KEY = "key"
 SENSOR_ATTRS = "attrs"
+SENSOR_CATEGORY = "cat"
+SENSOR_UNIT = "unit"
 
-# Sensors Config : <sentor_id> : [<data_key>, [<extra attr>]]
 SENSORS = {
-    "status": dict([(SENSOR_KEY, "STATE"), (SENSOR_ATTRS, ["STATUS"])]),
-    "dpress": dict([(SENSOR_KEY, "DP"), (SENSOR_ATTRS, None)]),
-    "dpress_target": dict([(SENSOR_KEY, "DPT"), (SENSOR_ATTRS, None)]),
-    "power_time": dict([(SENSOR_KEY, "POWERTIME"), (SENSOR_ATTRS, None)]),
-    "service_time": dict([(SENSOR_KEY, "SERVICETIME"), (SENSOR_ATTRS, None)]),
+    "Status": dict(
+        [
+            (SENSOR_KEY, "STATE"),
+            (SENSOR_ATTRS, {"status": "STATUS"}),
+            (SENSOR_CATEGORY, EntityCategory.DIAGNOSTIC),
+        ]
+    ),
+    "Dpress": dict(
+        [
+            (SENSOR_KEY, "DP"),
+            (SENSOR_CATEGORY, EntityCategory.DIAGNOSTIC),
+        ]
+    ),
+    "Dpress Target": dict(
+        [
+            (SENSOR_KEY, "DPT"),
+            (SENSOR_CATEGORY, EntityCategory.DIAGNOSTIC),
+        ]
+    ),
+    "Fan Speed": dict(
+        [
+            (SENSOR_KEY, "F1RPM"),
+            (SENSOR_CATEGORY, EntityCategory.DIAGNOSTIC),
+            (SENSOR_UNIT, "rpm"),
+        ]
+    ),
+    "Power Time": dict(
+        [
+            (SENSOR_KEY, "POWERTIME"),
+            (SENSOR_CATEGORY, EntityCategory.DIAGNOSTIC),
+        ]
+    ),
+    "Service Time": dict(
+        [
+            (SENSOR_KEY, "SERVICETIME"),
+            (SENSOR_CATEGORY, EntityCategory.DIAGNOSTIC),
+        ]
+    ),
 }
 
 
