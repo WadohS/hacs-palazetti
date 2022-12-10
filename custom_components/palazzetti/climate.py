@@ -129,7 +129,8 @@ class PalazzettiClimate(PalazzettiEntity, ClimateEntity):
                 or self.coordinator.data.get("STATUS") > 11
             ):
                 self._attr_hvac_action = HVACAction.IDLE
-            self._attr_hvac_action = HVACAction.HEATING
+            else:
+                self._attr_hvac_action = HVACAction.HEATING
         else:
             self._attr_hvac_mode = HVACMode.OFF
             self._attr_hvac_action = HVACAction.OFF
