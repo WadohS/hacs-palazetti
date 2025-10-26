@@ -41,9 +41,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         _LOGGER.info(STARTUP_MESSAGE)
 
     host = entry.data.get(CONF_HOST)
-
     hub = Hub(host)
-
     coordinator = PalazzettiDataUpdateCoordinator(hass, hub=hub)
     await coordinator.async_config_entry_first_refresh()
 
@@ -52,12 +50,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    for platform in PLATFORMS:
-        if entry.options.get(platform, True):
-            coordinator.platforms.append(platform)
-            hass.async_add_job(
-            await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-            )
+    # Ici tu n’as plus besoin de for/await dans hass.async_add_job
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+    return True
 
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
