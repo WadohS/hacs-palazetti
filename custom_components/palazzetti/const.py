@@ -8,7 +8,7 @@ from homeassistant.helpers.entity import EntityCategory
 NAME = "Palazzetti"
 DOMAIN = "palazzetti"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.0.1"
+VERSION = "0.0.6"
 ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
 ISSUE_URL = "https://github.com/WadohS/hacs-palazetti/issues"
 
