@@ -1,109 +1,72 @@
-"""Adds config flow for Palazzetti."""
-from homeassistant import config_entries
-from homeassistant.core import callback
+"""Config flow for Palazzetti integration."""
+from __future__ import annotations
+
+import logging
+from typing import Any
+
 import voluptuous as vol
 
+from homeassistant import config_entries
+from homeassistant.const import CONF_HOST
+from homeassistant.data_entry_flow import FlowResult
+from homeassistant.exceptions import HomeAssistantError
+
 from palazzetti_sdk_local_api import Hub
-from .const import (
-    CONF_HOST,
-    DOMAIN,
-    PLATFORMS,
+
+from .const import DOMAIN
+
+_LOGGER = logging.getLogger(__name__)
+
+STEP_USER_DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_HOST): str,
+    }
 )
 
 
-class PalazzettiFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for Palazzetti."""
+class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for Palazzetti."""
 
     VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
 
-    def __init__(self):
-        """Initialize."""
-        self._errors = {}
-
-    async def async_step_user(self, user_input=None):
-        """Handle a flow initialized by the user."""
-        self._errors = {}
-
-        # Uncomment the next 2 lines if only a single instance of the integration is allowed:
-        # if self._async_current_entries():
-        #     return self.async_abort(reason="single_instance_allowed")
-
+    async def async_step_user(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Handle the initial step."""
+        errors: dict[str, str] = {}
+        
         if user_input is not None:
-            valid = await self._test_credentials(user_input[CONF_HOST])
-            if valid:
+            try:
+                hub = Hub(user_input[CONF_HOST])
+                await hub.async_update(discovery=True, deep=True)
+                
+                if not hub.hub_online or not hub.product_online:
+                    raise CannotConnect
+                    
+                await self.async_set_unique_id(hub.product.system)
+                self._abort_if_unique_id_configured()
+
                 return self.async_create_entry(
-                    title=user_input[CONF_HOST], data=user_input
+                    title=hub.product.name, data=user_input
                 )
-            else:
-                self._errors["base"] = "auth"
-
-            return await self._show_config_form(user_input)
-
-        user_input = {}
-        # Provide defaults for form
-        user_input[CONF_HOST] = ""
-
-        return await self._show_config_form(user_input)
-
-    @staticmethod
-    @callback
-    def async_get_options_flow(config_entry):
-        return PalazzettiOptionsFlowHandler(config_entry)
-
-    async def _show_config_form(self, user_input):  # pylint: disable=unused-argument
-        """Show the configuration form to edit host."""
-        return self.async_show_form(
-            step_id="user",
-            data_schema=vol.Schema(
-                {vol.Required(CONF_HOST, default=user_input[CONF_HOST]): str}
-            ),
-            errors=self._errors,
-        )
-
-    async def _test_credentials(self, host):
-        """Return true if host is valid."""
-        try:
-            hub = Hub(host)
-            await hub.async_update(discovery=False, deep=False)
-            if hub.hub_online:
-                if hub.product_online:
-                    return True
-        except Exception:  # pylint: disable=broad-except
-            pass
-        return False
-
-
-class PalazzettiOptionsFlowHandler(config_entries.OptionsFlow):
-    """Palazzetti config flow options handler."""
-
-    def __init__(self, config_entry):
-        """Initialize HACS options flow."""
-        self.config_entry = config_entry
-        self.options = dict(config_entry.options)
-
-    async def async_step_init(self, user_input=None):  # pylint: disable=unused-argument
-        """Manage the options."""
-        return await self.async_step_user()
-
-    async def async_step_user(self, user_input=None):
-        """Handle a flow initialized by the user."""
-        if user_input is not None:
-            self.options.update(user_input)
-            return await self._update_options()
+            except CannotConnect:
+                errors["base"] = "cannot_connect"
+            except Exception:  # pylint: disable=broad-except
+                _LOGGER.exception("Unexpected exception")
+                errors["base"] = "unknown"
+        else:
+            # Show help message pointing to WadohS repository
+            self.context["show_advanced_options"] = False
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema(
-                {
-                    vol.Required(x, default=self.options.get(x, True)): bool
-                    for x in sorted(PLATFORMS)
-                }
-            ),
+            data_schema=STEP_USER_DATA_SCHEMA,
+            errors=errors,
+            description_placeholders={
+                "docs_url": "https://github.com/WadohS/hacs-palazetti"
+            },
         )
 
-    async def _update_options(self):
-        """Update config entry options."""
-        return self.async_create_entry(
-            title=self.config_entry.data.get(CONF_HOST), data=self.options
-        )
+
+class CannotConnect(HomeAssistantError):
+    """Error to indicate we cannot connect."""

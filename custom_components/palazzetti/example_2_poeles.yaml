@@ -1,0 +1,96 @@
+# Configuration Lovelace pour 2 poêles Palazzetti
+# Poêle 1 : climate.palazzetti
+# Poêle 2 : climate.ginger
+
+type: vertical-stack
+cards:
+  # ==========================================
+  # POÊLE 1 - PALAZZETTI
+  # ==========================================
+  - type: custom:palazzetti-card
+    climate_entity: climate.palazzetti
+    power_entity: number.palazzetti_power
+    name: Poêle Palazzetti
+    
+  # ==========================================
+  # POÊLE 2 - GINGER
+  # ==========================================
+  - type: custom:palazzetti-card
+    climate_entity: climate.ginger
+    power_entity: number.ginger_power
+    name: Poêle Ginger
+
+
+# ==========================================
+# ALTERNATIVE : Disposition horizontale (côte à côte)
+# ==========================================
+# Décommenter pour afficher les 2 poêles côte à côte sur tablette/desktop
+
+# type: horizontal-stack
+# cards:
+#   - type: custom:palazzetti-card
+#     climate_entity: climate.palazzetti
+#     power_entity: number.palazzetti_power
+#     name: Poêle Palazzetti
+#     
+#   - type: custom:palazzetti-card
+#     climate_entity: climate.ginger
+#     power_entity: number.ginger_power
+#     name: Poêle Ginger
+
+
+# ==========================================
+# ALTERNATIVE : Vue par pièce (avec sections)
+# ==========================================
+# Décommenter pour organiser par pièce
+
+# type: vertical-stack
+# cards:
+#   # En-tête Salon
+#   - type: markdown
+#     content: |
+#       ## 🏠 Salon
+#   
+#   - type: custom:palazzetti-card
+#     climate_entity: climate.palazzetti
+#     power_entity: number.palazzetti_power
+#     name: Poêle Principal
+#   
+#   # En-tête Chambre/Cuisine
+#   - type: markdown
+#     content: |
+#       ## 🛏️ Chambre / 🍳 Cuisine
+#   
+#   - type: custom:palazzetti-card
+#     climate_entity: climate.ginger
+#     power_entity: number.ginger_power
+#     name: Poêle Ginger
+
+
+# ==========================================
+# NOTES IMPORTANTES
+# ==========================================
+# 
+# 1. Vérifier les noms des entités number :
+#    - Aller dans Home Assistant > Outils développeur > États
+#    - Chercher "palazzetti" et "ginger"
+#    - Noter les noms exacts des entités number (puissance)
+#    - Exemples possibles :
+#      * number.palazzetti_power
+#      * number.palazzetti_puissance
+#      * number.ginger_power
+#      * number.ginger_puissance
+#
+# 2. Si les noms sont différents, modifier dans la config :
+#    power_entity: number.VOTRE_NOM_ICI
+#
+# 3. Personnalisation des noms affichés :
+#    - Changer "name: Poêle Palazzetti" par ce que vous voulez
+#    - Exemples : "Salon", "Bureau", "Cuisine", etc.
+#
+# 4. Installation du fichier JavaScript :
+#    - Placer palazzetti-card.js dans :
+#      /config/www/community/palazzetti-card/palazzetti-card.js
+#    - Ajouter la ressource dans Configuration > Tableaux de bord > Ressources :
+#      URL: /local/community/palazzetti-card/palazzetti-card.js
+#      Type: Module JavaScript

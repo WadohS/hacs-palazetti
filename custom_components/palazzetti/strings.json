@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Palazzetti ConnBox",
+        "description": "Configuration de votre poêle Palazzetti.\n\nSi vous avez besoin d'aide, consultez : https://github.com/WadohS/hacs-palazetti",
+        "data": {
+          "host": "Adresse IP du ConnBox"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter au ConnBox. Vérifiez l'adresse IP.",
+      "unknown": "Erreur inattendue"
+    },
+    "abort": {
+      "already_configured": "Ce poêle est déjà configuré"
+    }
+  }
+}

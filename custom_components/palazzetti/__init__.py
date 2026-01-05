@@ -2,7 +2,7 @@
 Custom integration to integrate Palazzeti ConnBox with Home Assistant.
 
 For more details about this integration, please refer to
-https://github.com/WadohS/hacs-palazetti
+https://github.com/qtnlebrun/hacs-palazetti
 """
 import asyncio
 from datetime import timedelta
@@ -22,7 +22,11 @@ from .const import (
     PLATFORMS,
     STARTUP_MESSAGE,
 )
-PLATFORMS = ["climate", "sensor", "number"]
+
+# ========================================
+# CORRECTION : Ajout de "number" pour activer le contrôle de puissance
+# ========================================
+PLATFORMS = ["climate", "sensor", "number"]  # ✅ "number" ajouté !
 
 SCAN_INTERVAL = timedelta(seconds=10)
 
@@ -50,11 +54,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
-    # Ici tu n’as plus besoin de for/await dans hass.async_add_job
+    # Ici tu n'as plus besoin de for/await dans hass.async_add_job
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-
-    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
-    return True
 
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
