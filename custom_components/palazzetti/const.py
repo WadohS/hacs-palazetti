@@ -10,7 +10,7 @@ DOMAIN = "palazzetti"
 DOMAIN_DATA = f"{DOMAIN}_data"
 VERSION = "0.0.1"
 ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
-ISSUE_URL = "https://github.com/qtnlebrun/hacs-palazetti/issues"
+ISSUE_URL = "https://github.com/WadohS/hacs-palazetti/issues"
 
 # Icons
 ICON_FIRE = "mdi:fire"
