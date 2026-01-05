@@ -2,7 +2,7 @@
 Custom integration to integrate Palazzeti ConnBox with Home Assistant.
 
 For more details about this integration, please refer to
-https://github.com/qtnlebrun/hacs-palazetti
+https://github.com/WadohS/hacs-palazetti
 """
 import asyncio
 from datetime import timedelta
