@@ -22,7 +22,7 @@ from .const import (
     PLATFORMS,
     STARTUP_MESSAGE,
 )
-PLATFORMS = ["climate", "sensor"]
+PLATFORMS = ["climate", "sensor","number"]
 
 SCAN_INTERVAL = timedelta(seconds=10)
 
