@@ -2,7 +2,7 @@
   "domain": "palazzetti",
   "name": "Palazzetti ConnBox",
   "config_flow": true,
-  "version": "0.0.7",
+  "version": "0.0.6",
   "requirements": [
     "palazzetti-sdk-local-api==1.0.14"
   ],
