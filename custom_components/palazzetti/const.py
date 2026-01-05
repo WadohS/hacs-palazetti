@@ -16,10 +16,6 @@ ISSUE_URL = "https://github.com/WadohS/hacs-palazetti/issues"
 ICON_FIRE = "mdi:fire"
 ICON_INFO = "mdi:information-outline"
 
-# Platforms
-PLATFORMS = [Platform.CLIMATE, Platform.NUMBER, Platform.SENSOR]
-
-
 # Configuration and options
 CONF_ENABLED = "enabled"
 CONF_HOST = "host"
