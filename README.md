@@ -1,36 +1,62 @@
-# palazzetti
+# Palazzetti ConnBox - Intégration Home Assistant
 
-[![GitHub Release][releases-shield]][releases]
-[![GitHub Activity][commits-shield]][commits]
-[![License][license-shield]](LICENSE)
+[![GitHub Release](https://img.shields.io/github/release/WadohS/hacs-palazetti.svg?style=for-the-badge)](https://github.com/WadohS/hacs-palazetti/releases)
+[![GitHub Activity](https://img.shields.io/github/commit-activity/y/WadohS/hacs-palazetti.svg?style=for-the-badge)](https://github.com/WadohS/hacs-palazetti/commits/master)
+[![License](https://img.shields.io/github/license/WadohS/hacs-palazetti.svg?style=for-the-badge)](LICENSE)
 
-[![hacs][hacsbadge]][hacs]
-![Project Maintenance][maintenance-shield]
+[![hacs](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+[![Project Maintenance](https://img.shields.io/badge/maintainer-WadohS-blue.svg?style=for-the-badge)](https://github.com/WadohS)
 
-[![Community Forum][forum-shield]][forum]
+[![Community Forum](https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge)](https://community.home-assistant.io/)
 
-_Component to integrate with [integration_blueprint][integration_blueprint]._
+_Intégration pour contrôler votre poêle Palazzetti via le ConnBox dans Home Assistant._
 
-**This component will set up the following platforms.**
+[![Ouvrir dans HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=WadohS&repository=hacs-palazetti&category=integration)
 
-Platform | Description
--- | --
-`climate` | Control a Palazzetti stove via the ConnBox (On/Off, target temperature and fan speed)
-`number` | Control the stove power
+## 🌟 Fonctionnalités
 
-## Installation
+**Cette intégration créera les plateformes suivantes.**
 
-1. Using the tool of choice open the directory (folder) for your HA configuration (where you find `configuration.yaml`).
-2. If you do not have a `custom_components` directory (folder) there, you need to create it.
-3. In the `custom_components` directory (folder) create a new folder called `palazzetti`.
-4. Download _all_ the files from the `custom_components/palazzetti/` directory (folder) in this repository.
-5. Place the files you downloaded in the new directory (folder) you created.
-6. Restart Home Assistant
-7. In the HA UI go to "Configuration" -> "Integrations" click "+" and search for "Palazzetti"
+| Plateforme | Description |
+| --- | --- |
+| `climate` | Contrôle du poêle Palazzetti via ConnBox (On/Off, température cible et vitesse ventilateur) |
+| `number` | Contrôle de la puissance du poêle |
 
-Using your HA configuration directory (folder) as a starting point you should now also have this:
+## 📦 Installation
 
-```text
+### Via HACS (Recommandé)
+
+#### Installation en 1 clic 🚀
+
+[![Ouvrir dans HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=WadohS&repository=hacs-palazetti&category=integration)
+
+**Cliquez sur le bouton ci-dessus** pour ajouter automatiquement l'intégration Palazzetti à votre Home Assistant !
+
+#### Installation manuelle via HACS
+
+Si le bouton ne fonctionne pas :
+
+1. Ouvrez HACS dans votre interface Home Assistant
+2. Allez dans "Intégrations"
+3. Cliquez sur les 3 points en haut à droite ⋮
+4. Sélectionnez "Dépôts personnalisés"
+5. Ajoutez l'URL : `https://github.com/WadohS/hacs-palazetti`
+6. Catégorie : "Integration"
+7. Recherchez "Palazzetti" et installez-le
+8. Redémarrez Home Assistant
+
+### Installation manuelle
+
+1. Utilisez votre outil préféré pour ouvrir le répertoire de configuration de Home Assistant (où se trouve `configuration.yaml`)
+2. Si vous n'avez pas de répertoire `custom_components`, créez-le
+3. Dans le répertoire `custom_components`, créez un nouveau dossier appelé `palazzetti`
+4. Téléchargez **tous** les fichiers depuis le répertoire `custom_components/palazzetti/` de ce dépôt
+5. Placez-les dans le nouveau répertoire que vous venez de créer
+6. Redémarrez Home Assistant
+
+Votre structure de répertoire devrait ressembler à ceci :
+
+```
 custom_components/palazzetti/translations/en.json
 custom_components/palazzetti/translations/fr.json
 custom_components/palazzetti/__init__.py
@@ -41,24 +67,121 @@ custom_components/palazzetti/manifest.json
 custom_components/palazzetti/number.py
 ```
 
-## Configuration is done in the UI
+## ⚙️ Configuration
 
-<!---->
+La configuration se fait entièrement via l'interface utilisateur :
 
-## Contributions are welcome!
+### Configuration en 1 clic ⚡
 
-If you want to contribute to this please read the [Contribution guidelines](CONTRIBUTING.md)
+[![Ajouter l'intégration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=palazzetti)
 
-***
+**Cliquez sur le bouton ci-dessus** pour configurer automatiquement l'intégration !
 
-[integration_blueprint]: https://github.com/qtnlebrun/hacs-palazetti
-[commits-shield]: https://img.shields.io/github/commit-activity/y/qtnlebrun/hacs-palazetti.svg?style=for-the-badge
-[commits]: https://github.com/qtnlebrun/hacs-palazetti/commits/master
-[hacs]: https://github.com/custom-components/hacs
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
-[forum-shield]: https://img.shields.io/badge/community-forum-brightgreen.svg?style=for-the-badge
-[forum]: https://community.home-assistant.io/
-[license-shield]: https://img.shields.io/github/license/qtnlebrun/hacs-palazetti.svg?style=for-the-badge
-[maintenance-shield]: https://img.shields.io/badge/maintainer-%40qtnlebrun-blue.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/release/qtnlebrun/hacs-palazetti.svg?style=for-the-badge
-[releases]: https://github.com/qtnlebrun/hacs-palazetti/releases
+### Configuration manuelle
+
+1. Allez dans **Configuration** → **Intégrations**
+2. Cliquez sur **+ Ajouter une intégration**
+3. Recherchez **Palazzetti**
+4. Entrez l'adresse IP de votre ConnBox
+5. Cliquez sur **Soumettre**
+
+## 🎨 Exemples d'utilisation
+
+### Carte Thermostat simple
+
+```yaml
+type: thermostat
+entity: climate.palazzetti_poele
+```
+
+### Carte avec contrôle de puissance
+
+```yaml
+type: entities
+entities:
+  - entity: climate.palazzetti_poele
+  - entity: number.palazzetti_puissance
+```
+
+### Automatisation - Allumage programmé
+
+```yaml
+automation:
+  - alias: "Allumer le poêle le matin"
+    trigger:
+      - platform: time
+        at: "06:30:00"
+    condition:
+      - condition: numeric_state
+        entity_id: sensor.temperature_salon
+        below: 18
+    action:
+      - service: climate.turn_on
+        target:
+          entity_id: climate.palazzetti_poele
+      - service: climate.set_temperature
+        target:
+          entity_id: climate.palazzetti_poele
+        data:
+          temperature: 21
+```
+
+### Automatisation - Extinction automatique
+
+```yaml
+automation:
+  - alias: "Éteindre le poêle la nuit"
+    trigger:
+      - platform: time
+        at: "22:00:00"
+    action:
+      - service: climate.turn_off
+        target:
+          entity_id: climate.palazzetti_poele
+```
+
+## 🐛 Signaler un problème
+
+Si vous rencontrez un bug ou avez une suggestion :
+
+1. Vérifiez que vous utilisez la dernière version
+2. Consultez les [issues existantes](https://github.com/WadohS/hacs-palazetti/issues)
+3. Créez une nouvelle issue avec :
+   - Version de Home Assistant
+   - Version de l'intégration
+   - Modèle de votre poêle Palazzetti
+   - Description détaillée du problème
+   - Logs pertinents
+
+## 🤝 Contribuer
+
+Les contributions sont les bienvenues ! Veuillez consulter notre [Guide de contribution](CONTRIBUTING.md).
+
+## 📝 Changelog
+
+### Version 0.0.1 (2026-01-05)
+- 🎉 Mise à jour initiale de la version
+- ✨ Ajout du bouton d'installation en 1 clic
+- 📚 Documentation améliorée avec exemples
+- 🔄 Migration vers le nouveau format HACS
+
+### Versions précédentes
+- Support des plateformes climate et number
+- Contrôle local via ConnBox
+- Configuration via interface utilisateur
+
+## 📄 Licence
+
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+## 🙏 Remerciements
+
+- [@qtnlebrun](https://github.com/qtnlebrun) pour le développement initial
+- Communauté Home Assistant pour leur support
+- Tous les utilisateurs qui signalent des problèmes et suggèrent des améliorations
+
+---
+
+**Compatible avec** : Home Assistant 0.118.0 et versions ultérieures
+
+**Classe IoT** : Interrogation locale (local_polling)
