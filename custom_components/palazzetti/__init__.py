@@ -19,7 +19,6 @@ from palazzetti_sdk_local_api import Hub
 from .const import (
     CONF_HOST,
     DOMAIN,
-    PLATFORMS,
     STARTUP_MESSAGE,
 )
 
